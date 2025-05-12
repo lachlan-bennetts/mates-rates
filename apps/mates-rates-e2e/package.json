@@ -1,0 +1,27 @@
+{
+  "name": "@mates-rates/mates-rates-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "mates-rates-e2e",
+    "implicitDependencies": [
+      "mates-rates"
+    ],
+    "targets": {
+      "e2e": {
+        "executor": "@nx/jest:jest",
+        "outputs": [
+          "{projectRoot}/test-output/jest/coverage"
+        ],
+        "options": {
+          "jestConfig": "apps/mates-rates-e2e/jest.config.ts",
+          "passWithNoTests": true
+        },
+        "dependsOn": [
+          "mates-rates:build",
+          "mates-rates:serve"
+        ]
+      }
+    }
+  }
+}

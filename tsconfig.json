@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/mates-rates-e2e"
+    },
+    {
+      "path": "./apps/mates-rates"
+    }
+  ]
+}
