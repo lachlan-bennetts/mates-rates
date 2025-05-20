@@ -8,6 +8,18 @@
     },
     {
       "path": "./apps/mates-rates"
+    },
+    {
+      "path": "./apps/mates-rates-get-places-cron-e2e"
+    },
+    {
+      "path": "./apps/mates-rates-get-places-cron"
+    },
+    {
+      "path": "./libs/env-config"
+    },
+    {
+      "path": "./libs/logger"
     }
   ]
 }

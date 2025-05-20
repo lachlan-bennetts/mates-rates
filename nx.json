@@ -1,10 +1,7 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
@@ -30,7 +27,8 @@
           "buildDepsName": "build-deps",
           "watchDepsName": "watch-deps"
         }
-      }
+      },
+      "exclude": ["libs/env-config/*", "libs/logger/*"]
     },
     {
       "plugin": "@nx/webpack/plugin",
@@ -54,15 +52,23 @@
         "targetName": "test"
       },
       "exclude": [
-        "apps/mates-rates-e2e/**/*"
+        "apps/mates-rates-e2e/**/*",
+        "apps/mates-rates-get-places-cron-e2e/**/*"
       ]
+    },
+    {
+      "plugin": "@nx/js/typescript",
+      "include": ["libs/env-config/*", "libs/logger/*"],
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        }
+      }
     }
   ],
   "targetDefaults": {
     "test": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     }
   }
 }
