@@ -1,8 +1,16 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Logger } from './logger.service';
+import { RequestContext } from './request-context.service';
+import { CorrelationIdMiddleware } from './correlation-id.middleware';
 
 @Module({
-  controllers: [],
-  providers: [],
-  exports: [],
+  providers: [Logger, RequestContext],
+  exports: [Logger],
 })
-export class MatesRatesLoggerModule {}
+export class LoggerModule implements NestModule {
+  constructor(private readonly context: RequestContext) {}
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CorrelationIdMiddleware).forRoutes('*');
+  }
+}

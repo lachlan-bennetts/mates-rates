@@ -1,14 +1,11 @@
 import * as common from '@nestjs/common';
 import axios from 'axios';
 import { EnvConfigService } from '@mates-rates/env-config';
+import { Logger } from '@mates-rates/logger';
 
 @common.Injectable()
 export class AppService {
-  constructor(private env: EnvConfigService) {}
-
-  async saveSydneyBars(): Promise<any> {
-    return { message: 'Hello Sarah Grizzle for shizzle' };
-  }
+  constructor(private env: EnvConfigService, private logger: Logger) {}
 
   async fetchAndMapPlaces(): Promise<any> {
     try {
@@ -45,7 +42,7 @@ export class AppService {
         tags: el.tags,
       }));
 
-      console.log(
+      this.logger.log(
         `Fetched ${cleaned.length} bars/pubs with websites in Sydney:`
       );
 

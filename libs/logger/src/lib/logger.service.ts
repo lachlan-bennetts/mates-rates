@@ -5,16 +5,16 @@ import {
   transports,
   Logger as WinstonLogger,
 } from 'winston';
+import { RequestContext } from './request-context.service';
 
 @Injectable()
-export class AppLogger implements LoggerService {
+export class Logger implements LoggerService {
   private readonly logger: WinstonLogger;
 
-  constructor() {
+  constructor(private readonly context: RequestContext) {
     this.logger = createLogger({
       level: 'info',
       format: format.combine(
-        format.timestamp(),
         format.errors({ stack: true }),
         format.splat(),
         format.json()
@@ -27,19 +27,24 @@ export class AppLogger implements LoggerService {
     });
   }
 
-  log(message: string, context?: string) {
-    this.logger.info(message, { context });
+  private format(message: string): string {
+    const id = this.context.getCorrelationId();
+    return id ? `${message} | ${id}` : message;
   }
 
-  error(message: string, trace?: string, context?: string) {
-    this.logger.error(message, { trace, context });
+  log(message: string, furtherContext?: string) {
+    this.logger.info(this.format(message), { furtherContext });
   }
 
-  warn(message: string, context?: string) {
-    this.logger.warn(message, { context });
+  error(message: string, trace?: any, furtherContext?: string) {
+    this.logger.error(this.format(message), { trace }, { furtherContext });
   }
 
-  debug?(message: string, context?: string) {
-    this.logger.debug(message, { context });
+  warn(message: string, furtherContext?: string) {
+    this.logger.warn(this.format(message), { furtherContext });
+  }
+
+  debug?(message: string, furtherContext?: string) {
+    this.logger.debug(this.format(message), { furtherContext });
   }
 }

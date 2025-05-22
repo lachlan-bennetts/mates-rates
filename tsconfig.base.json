@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
-      "@mates-rates/env-config": ["libs/env-config/src/index.ts"]
+      "@mates-rates/env-config": ["libs/env-config/src/index.ts"],
+      "@mates-rates/logger": ["libs/logger/src/index.ts"]
     },
     "composite": true,
     "declarationMap": true,
