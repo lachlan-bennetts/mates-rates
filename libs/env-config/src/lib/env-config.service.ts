@@ -10,6 +10,7 @@ const envSchema = z.object({
   DB_USER: z.string(),
   DB_PASS: z.string(),
   GOOGLE_API_KEY: z.string(),
+  OPENAI_API_KEY: z.string(),
 });
 
 const parsedEnv = envSchema.parse(process.env);

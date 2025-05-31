@@ -1,9 +1,9 @@
-import * as common from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { EnvConfigService } from '@mates-rates/env-config';
 import { Logger } from '@mates-rates/logger';
 
-@common.Injectable()
+@Injectable()
 export class AppService {
   constructor(private env: EnvConfigService, private logger: Logger) {}
 
