@@ -8,7 +8,7 @@
     "emitDecoratorMetadata": true,
     "target": "es2021"
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/app/placesCron.service.ts"],
   "exclude": [
     "out-tsc",
     "dist",

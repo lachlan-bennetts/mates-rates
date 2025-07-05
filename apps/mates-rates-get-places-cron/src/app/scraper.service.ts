@@ -1,7 +1,26 @@
 import OpenAI from 'openai';
 import { EnvConfigService } from '@mates-rates/env-config';
 import { Injectable } from '@nestjs/common';
-import puppeteer, { executablePath } from 'puppeteer-core';
+import puppeteer, { Page } from 'puppeteer';
+
+type imageMatch = {
+  imgSrc: string;
+  contextText: string;
+};
+
+type textMatch = {
+  tag: string | null;
+  text: string | null;
+  class: string | null;
+  link: string | null;
+  id: string | null;
+};
+
+type matchPayload = {
+  text: textMatch[];
+  image: imageMatch[];
+  happyHourLinks: textMatch[];
+};
 
 @Injectable()
 export class ScraperService {
@@ -17,45 +36,127 @@ export class ScraperService {
     return this.client;
   }
 
-  async scraper(websiteUrl: string) {
-    const browser = await puppeteer.launch({
-      headless: 'shell',
-      executablePath:
-        '~/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  private async scrollToBottom(page: Page) {
+    await page.evaluate(async () => {
+      await new Promise<void>((resolve) => {
+        let totalHeight = 0;
+        const distance = 500;
+        const timer = setInterval(() => {
+          const scrollHeight = document.body.scrollHeight;
+          window.scrollBy(0, distance);
+          totalHeight += distance;
+
+          if (totalHeight >= scrollHeight) {
+            clearInterval(timer);
+            resolve();
+          }
+        }, 200);
+      });
     });
+  }
+
+  async scrape(
+    url: string
+  ): Promise<{ imgSrc: string; contextText: string }[]> {
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
-    // Navigate to bar website
-    await page.goto('');
+    try {
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
-    // Set screen size.
-    await page.setViewport({ width: 1920, height: 1080 });
+      // Check for happy hour text mentions on initial webpage.
+      const happyHourKeywords = ['happy hour', 'happy-hour', 'happy_hour'];
+      const happyHourMatches = await this.getTextMatches(
+        page,
+        ['body *'],
+        happyHourKeywords
+      );
 
-    const pageHtml = await page.content();
-    console.log(pageHtml);
-    const loweredPageHtml = pageHtml.toLowerCase();
-    const openAi = this.instantiateOpenAiClient();
+      const whatsOnKeywords = ['whatson', 'whats-on', 'whats_on'];
+      const whatsOnSelectors = ['a', 'button'];
+      const whatsOnMatches = await this.getTextMatches(
+        page,
+        whatsOnKeywords,
+        whatsOnSelectors
+      );
 
-    const response = await openAi.chat.completions.create({
-      model: 'gpt-4-turbo',
-      messages: [
-        {
-          role: 'developer',
-          content: `Below is the HTML of a bar, I need you to find the happy hour for this bar and store it in a JSON format
-          as follows: 
-          {
-            happyHourDays: string (example Mon-Fri),
-            happyHourStart: string (In 24 hour notation, example: 16:00),
-            happyHourEnd: string (In 24 hour notation, example: 19:00),
-            // Below is for when the hours may change on a different day of the week.
-            happyHourDays: string (example Mon-Fri),
-            happyHourStart: string (In 24 hour notation, example: 16:00),
-            happyHourEnd: string (In 24 hour notation, example: 19:00),
-          }`,
-        },
-      ],
+      // await page.goto(targetUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+
+      // Step 3: Find images + associated text for happy hour variants
+      const imageHhKeywords = ['happyhour', 'happy-hour', 'happy_hour'];
+      const imageMatches = await this.getImageMatches(page, imageHhKeywords);
+
+      const allMatches = {
+        textMatch: happyHourMatches,
+        imageMatch: imageMatches,
+        potentialPages: whatsOnMatches,
+      };
+
+      return allMatches;
+    } catch (err) {
+      console.error(`Error scraping ${url}:`, err);
+      return [];
+    } finally {
+      await browser.close();
+    }
+  }
+
+  async getImageMatches(page: Page, matchKeywords: string[]) {
+    const result = await page.$$eval('img', (images) => {
+      const imageMatches: imageMatch[] = [];
+      images.forEach((img) => {
+        const parent = img.closest('div, section, article');
+        const context = parent?.innerHTML || '';
+        const cleaned = context.toLowerCase().replace(/\s/g, '');
+
+        if (matchKeywords.some((k) => cleaned.includes(k))) {
+          imageMatches.push({
+            imgSrc: img.src,
+            contextText: parent?.innerHTML.trim() || '',
+          });
+        }
+      });
+
+      return imageMatches;
     });
+  }
 
-    console.log(response.choices[0].message.content);
+  async getTextMatches(
+    page: Page,
+    selectors: string[],
+    matchKeywords: string[]
+  ) {
+    const textMatchedElements = await page.evaluate(() => {
+      const matches: textMatch[] = [];
+
+      // Loop through all elements in the body
+      document.querySelectorAll(`${selectors.join(',')}`).forEach((el) => {
+        const style = window.getComputedStyle(el);
+        const isVisible =
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          (el as HTMLElement).innerText !== null;
+
+        const text = (el as HTMLElement).innerText.trim();
+
+        if (isVisible && text) {
+          const matchFound = matchKeywords.some((matchKeyword) =>
+            text.includes(matchKeyword)
+          );
+          if (matchFound) {
+            matches.push({
+              tag: el.tagName.toLowerCase(),
+              text: text,
+              class: el.className || null,
+              link: (el as HTMLAnchorElement).href || null,
+              id: el.id || null,
+            });
+          }
+        }
+      });
+
+      return matches;
+    });
+    return textMatchedElements;
   }
 }

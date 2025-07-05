@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { AppService } from './app.service';
+import { PlacesCronService } from './placesCron.service';
 import { EnvConfigService } from '@mates-rates/env-config';
 import { Logger } from '@mates-rates/logger';
 import axios from 'axios';
@@ -7,14 +7,14 @@ import axios from 'axios';
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-describe('AppService', () => {
-  let service: AppService;
+describe('PlacesCronService', () => {
+  let service: PlacesCronService;
   let logger: Logger;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
-        AppService,
+        PlacesCronService,
         {
           provide: EnvConfigService,
           useValue: {},
@@ -26,7 +26,7 @@ describe('AppService', () => {
       ],
     }).compile();
 
-    service = moduleRef.get<AppService>(AppService);
+    service = moduleRef.get<PlacesCronService>(PlacesCronService);
     logger = moduleRef.get<Logger>(Logger);
   });
 

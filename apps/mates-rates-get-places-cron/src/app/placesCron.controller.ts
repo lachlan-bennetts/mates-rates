@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
 import { Logger } from '@mates-rates/logger';
-import { AppService } from './app.service';
+import { PlacesCronService } from './placesCron.service';
 import { ScraperService } from './scraper.service';
 
 @Controller()
-export class AppController {
+export class PlacesCronController {
   constructor(
-    private readonly appService: AppService,
+    private readonly appService: PlacesCronService,
     private readonly scraperService: ScraperService,
     private logger: Logger
   ) {}
@@ -28,7 +28,7 @@ export class AppController {
   test() {
     try {
       this.logger.log('Testing...');
-      return this.scraperService.scraper('Test');
+      return this.scraperService.scrape('Test');
     } catch (err) {
       return this.logger.error(
         'Error has occured at the controller level.',

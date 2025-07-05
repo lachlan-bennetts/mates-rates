@@ -4,7 +4,7 @@ import { EnvConfigService } from '@mates-rates/env-config';
 import { Logger } from '@mates-rates/logger';
 
 @Injectable()
-export class AppService {
+export class PlacesCronService {
   constructor(private env: EnvConfigService, private logger: Logger) {}
 
   async fetchAndMapPlaces(): Promise<any> {
@@ -13,15 +13,14 @@ export class AppService {
       const sydneyBarsQuery = `
     [out:json][timeout:25];
     (
-      node["amenity"~"bar|pub"]["website"](around:10000,-33.8688,151.2093);
-      node["amenity"~"bar|pub"]["contact:website"](around:10000,-33.8688,151.2093);
-      way["amenity"~"bar|pub"]["website"](around:10000,-33.8688,151.2093);
-      way["amenity"~"bar|pub"]["contact:website"](around:10000,-33.8688,151.2093);
-      relation["amenity"~"bar|pub"]["website"](around:10000,-33.8688,151.2093);
-      relation["amenity"~"bar|pub"]["contact:website"](around:10000,-33.8688,151.2093);
+      node["amenity"~"bar|pub"]["website"](around:2000,-33.8688,151.2093);
+      node["amenity"~"bar|pub"]["contact:website"](around:2000,-33.8688,151.2093);
+      way["amenity"~"bar|pub"]["website"](around:2000,-33.8688,151.2093);
+      way["amenity"~"bar|pub"]["contact:website"](around:2000,-33.8688,151.2093);
+      relation["amenity"~"bar|pub"]["website"](around:2000,-33.8688,151.2093);
+      relation["amenity"~"bar|pub"]["contact:website"](around:2000,-33.8688,151.2093);
     );
-    out center;
-  `;
+    out center;`;
 
       const res = await axios.post(
         'https://overpass-api.de/api/interpreter',
