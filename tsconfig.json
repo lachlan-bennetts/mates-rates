@@ -20,6 +20,15 @@
     },
     {
       "path": "./libs/logger"
+    },
+    {
+      "path": "./libs"
+    },
+    {
+      "path": "./libs/database-connector"
+    },
+    {
+      "path": "./libs/redis"
     }
   ]
 }

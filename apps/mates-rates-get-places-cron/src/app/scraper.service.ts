@@ -3,24 +3,24 @@ import { EnvConfigService } from '@mates-rates/env-config';
 import { Injectable } from '@nestjs/common';
 import puppeteer, { Page } from 'puppeteer';
 
-type imageMatch = {
+interface imageMatch {
   imgSrc: string;
   contextText: string;
-};
+}
 
-type textMatch = {
+interface textMatch {
   tag: string | null;
   text: string | null;
   class: string | null;
   link: string | null;
   id: string | null;
-};
+}
 
-type matchPayload = {
-  text: textMatch[];
-  image: imageMatch[];
-  happyHourLinks: textMatch[];
-};
+interface allMatches {
+  textMatch: textMatch[];
+  imageMatch: imageMatch[];
+  potentialPages: textMatch[];
+}
 
 @Injectable()
 export class ScraperService {
@@ -55,9 +55,11 @@ export class ScraperService {
     });
   }
 
-  async scrape(
-    url: string
-  ): Promise<{ imgSrc: string; contextText: string }[]> {
+  async scrapePageForHappyHour(url: string): Promise<{
+    textMatch: textMatch[];
+    imageMatch: imageMatch[];
+    potentialPages: textMatch[];
+  }> {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
@@ -95,13 +97,20 @@ export class ScraperService {
       return allMatches;
     } catch (err) {
       console.error(`Error scraping ${url}:`, err);
-      return [];
+      return {
+        textMatch: [],
+        imageMatch: [],
+        potentialPages: [],
+      };
     } finally {
       await browser.close();
     }
   }
 
-  async getImageMatches(page: Page, matchKeywords: string[]) {
+  async getImageMatches(
+    page: Page,
+    matchKeywords: string[]
+  ): Promise<imageMatch[]> {
     const result = await page.$$eval('img', (images) => {
       const imageMatches: imageMatch[] = [];
       images.forEach((img) => {
@@ -116,9 +125,9 @@ export class ScraperService {
           });
         }
       });
-
       return imageMatches;
     });
+    return result;
   }
 
   async getTextMatches(

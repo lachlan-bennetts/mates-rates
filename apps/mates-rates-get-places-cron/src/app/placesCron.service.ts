@@ -51,4 +51,6 @@ export class PlacesCronService {
       throw err;
     }
   }
+
+  // Need method to
 }

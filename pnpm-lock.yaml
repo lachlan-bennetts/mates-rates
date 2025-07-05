@@ -160,6 +160,12 @@ importers:
 
   apps/mates-rates-get-places-cron-e2e: {}
 
+  libs/database-connector:
+    dependencies:
+      tslib:
+        specifier: ^2.3.0
+        version: 2.8.1
+
   libs/env-config: {}
 
   libs/logger:
@@ -167,6 +173,12 @@ importers:
       '@types/express':
         specifier: ^5.0.2
         version: 5.0.2
+
+  libs/redis:
+    dependencies:
+      tslib:
+        specifier: ^2.3.0
+        version: 2.8.1
 
 packages:
 
