@@ -1,0 +1,14 @@
+{
+  "name": "@mates-rates/database",
+  // "implicitDependencies": ["@mates-rates/env-config"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "outputPath": "dist/libs/database-connector",
+        "main": "libs/database-connector/src/index.ts",
+        "tsConfig": "libs/database-connector/tsconfig.lib.json"
+      }
+    }
+  }
+}

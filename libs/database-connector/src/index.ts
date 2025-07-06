@@ -1,1 +1,1 @@
-export * from './lib/database-connector.js';
+export * from './database.module';
