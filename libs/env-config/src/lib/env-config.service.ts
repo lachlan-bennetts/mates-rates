@@ -5,11 +5,11 @@ import { z } from 'zod';
 dotenv.config();
 
 const envSchema = z.object({
-  PORT: z.string().default('3000'),
-  DB_HOST: z.string(),
-  DB_USER: z.string(),
-  DB_PASS: z.string(),
-  GOOGLE_API_KEY: z.string(),
+  DB_PORT: z.number().default(3000),
+  DB_HOST: z.string().default('postgres'),
+  DB_USER: z.string().default('user'),
+  DB_PASS: z.string().default('password'),
+  DB_NAME: z.string().default('mates-rates'),
   OPENAI_API_KEY: z.string(),
 });
 
@@ -21,9 +21,5 @@ export class EnvConfigService {
 
   get(key: keyof typeof parsedEnv) {
     return this.env[key];
-  }
-
-  getAll() {
-    return this.env;
   }
 }
