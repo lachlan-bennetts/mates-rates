@@ -1,12 +1,12 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { Logger } from '@mates-rates/logger';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class DbConnectionTester implements OnModuleInit {
   constructor(
     private readonly dataSource: DataSource,
-    private logger: Logger
+    private readonly logger = new Logger()
   ) {}
 
   async onModuleInit() {

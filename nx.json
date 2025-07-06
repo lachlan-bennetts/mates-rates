@@ -75,5 +75,16 @@
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     }
+  },
+  "projects": {
+    "@mates-rates/dataase": {
+      "tags": []
+    },
+    "@mates-rates/env-config": {
+      "tags": []
+    },
+    "@mates-rates/logger": {
+      "tags": []
+    }
   }
 }

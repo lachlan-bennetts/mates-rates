@@ -21,10 +21,13 @@
   ],
   "references": [
     {
-      "path": "../../libs/logger/tsconfig.lib.json"
+      "path": "../../libs/database-connector/tsconfig.lib.json"
     },
     {
       "path": "../../libs/env-config/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/logger/tsconfig.lib.json"
     }
   ]
 }

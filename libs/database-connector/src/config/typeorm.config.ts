@@ -8,7 +8,7 @@ const envConfig = new EnvConfigService();
 export const ormConfig: DataSourceOptions = {
   type: 'postgres',
   host: String(envConfig.get('DB_HOST')),
-  port: Number(envConfig.get('DB_PORT')),
+  port: parseInt(envConfig.get('DB_PORT')),
   username: String(envConfig.get('DB_USER')),
   password: String(envConfig.get('DB_PASS')),
   database: String(envConfig.get('DB_NAME')),

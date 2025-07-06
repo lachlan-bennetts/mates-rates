@@ -1,25 +1,29 @@
 import { DeepPartial, Repository } from 'typeorm';
 import { Bar } from '../entities/Bar.entity';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class BarRepository<T extends Bar> {
-  constructor(private readonly repository: Repository<T>) {}
+export class BarRepository {
+  constructor(
+    @InjectRepository(Bar)
+    private readonly repository: Repository<Bar>
+  ) {}
 
-  async findAll(): Promise<T[]> {
+  async findAll(): Promise<Bar[]> {
     return this.repository.find();
   }
 
-  async findById(id: number): Promise<T | null> {
+  async findById(id: number): Promise<Bar | null> {
     return this.repository.findOneBy({ id } as any);
   }
 
-  async create(data: DeepPartial<T>): Promise<T> {
+  async create(data: DeepPartial<Bar>): Promise<Bar> {
     const entity = this.repository.create(data);
     return this.repository.save(entity);
   }
 
-  async update(id: number, data: DeepPartial<T>): Promise<T | null> {
+  async update(id: number, data: DeepPartial<Bar>): Promise<Bar | null> {
     await this.repository.update(id, data as any);
     return this.findById(id);
   }

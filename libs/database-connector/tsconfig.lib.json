@@ -2,14 +2,24 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
+    "rootDir": "src",
     "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
+    "composite": true,
+    "declaration": true,
     "emitDeclarationOnly": false,
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "experimentalDecorators": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "../../libs/env-config/src/**/*.ts", "../../libs/logger/src/index.ts"],
-  "references": [],
+  "include": ["src/**/*.ts"],
+  "references": [
+    {
+      "path": "../env-config/tsconfig.lib.json"
+    },
+    {
+      "path": "../logger/tsconfig.lib.json"
+    }
+  ],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

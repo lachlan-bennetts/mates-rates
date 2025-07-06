@@ -4,16 +4,13 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/database-connector"
+    },
+    {
       "path": "../../libs/logger"
     },
     {
       "path": "../../libs/env-config"
-    },
-    {
-      "path": "../../libs/database-connector"
-    },
-    {
-      "path": "../../libs/redis"
     },
     {
       "path": "./tsconfig.app.json"

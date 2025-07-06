@@ -5,7 +5,7 @@ import { z } from 'zod';
 dotenv.config();
 
 const envSchema = z.object({
-  DB_PORT: z.number().default(3000),
+  DB_PORT: z.string().default('3000'),
   DB_HOST: z.string().default('postgres'),
   DB_USER: z.string().default('user'),
   DB_PASS: z.string().default('password'),

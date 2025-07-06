@@ -5,9 +5,10 @@ import { HttpModule } from '@nestjs/axios';
 import { EnvConfigModule } from '@mates-rates/env-config';
 import { LoggerModule } from '@mates-rates/logger';
 import { ScraperService } from './scraper.service';
+import { DbModule } from '@mates-rates/database';
 
 @Module({
-  imports: [HttpModule, EnvConfigModule, LoggerModule],
+  imports: [HttpModule, EnvConfigModule, LoggerModule, DbModule],
   controllers: [PlacesCronController],
   providers: [PlacesCronService, ScraperService],
 })

@@ -1,0 +1,13 @@
+{
+  "name": "@mates-rates/env-config",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "outputPath": "dist/libs/env-config",
+        "main": "libs/env-config/src/index.ts",
+        "tsConfig": "libs/env-config/tsconfig.lib.json"
+      }
+    }
+  }
+}

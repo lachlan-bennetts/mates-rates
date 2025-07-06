@@ -8,8 +8,6 @@ import { CorrelationIdMiddleware } from './correlation-id.middleware';
   exports: [Logger],
 })
 export class LoggerModule implements NestModule {
-  constructor(private readonly context: RequestContext) {}
-
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(CorrelationIdMiddleware).forRoutes('*');
   }
