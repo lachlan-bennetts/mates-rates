@@ -5,14 +5,14 @@
     "types": [
       "node"
     ],
-    "rootDir": "src",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "target": "es2021"
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "../../libs/database-connector/src/index.tsx"
   ],
   "exclude": [
     "out-tsc",

@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "../../libs/env-config/src/**/*.ts"],
+  "include": ["src/**/*.ts", "../../libs/env-config/src/**/*.ts", "../../libs/logger/src/index.ts"],
   "references": [],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

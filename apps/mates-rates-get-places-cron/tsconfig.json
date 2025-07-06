@@ -10,6 +10,12 @@
       "path": "../../libs/env-config"
     },
     {
+      "path": "../../libs/database-connector"
+    },
+    {
+      "path": "../../libs/redis"
+    },
+    {
       "path": "./tsconfig.app.json"
     },
     {

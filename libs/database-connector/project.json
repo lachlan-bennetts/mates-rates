@@ -1,6 +1,5 @@
 {
   "name": "@mates-rates/database",
-  // "implicitDependencies": ["@mates-rates/env-config"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
