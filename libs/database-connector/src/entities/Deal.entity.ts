@@ -24,7 +24,7 @@ export class Deal {
   @Column({ type: 'text', nullable: true })
   description?: string;
 
-  @Column({ type: 'enum' })
+  @Column({ type: 'enum', enum: dealCategory })
   category!: dealCategory;
 
   @Column({ type: 'decimal', nullable: true })
@@ -33,13 +33,13 @@ export class Deal {
   @Column({ type: 'date', nullable: true })
   validTo!: Date;
 
-  @Column({ type: 'string' })
+  @Column({ type: 'varchar', length: 510 })
   sourceUrl?: string;
 
-  @Column({ type: 'string' })
+  @Column({ type: 'varchar', length: 510 })
   imageUrl?: string;
 
-  @Column({ type: 'array', default: true })
+  @Column('text', { array: true })
   daysActive!: number[];
 
   @CreateDateColumn({

@@ -9,7 +9,7 @@ const envSchema = z.object({
   DB_HOST: z.string().default('postgres'),
   DB_USER: z.string().default('user'),
   DB_PASS: z.string().default('password'),
-  DB_NAME: z.string().default('mates-rates'),
+  DB_NAME: z.string().default('mates-rates-store'),
   OPENAI_API_KEY: z.string(),
 });
 
