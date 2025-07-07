@@ -7,7 +7,7 @@ const findContainerId = (node) => {
   const cmd = `
   docker ps \
     --filter "status=running" \
-    --filter "label=custom.project=mates-rates" \
+    --filter "label=custom.project=mates-rates-store" \
     --filter "label=custom.service=${node}" \
     --no-trunc \
     -q

@@ -5,7 +5,7 @@ export COMPOSE_FILE=${COMPOSE_FILE:="docker-compose.yml"}
 find_container_id() {
     echo $(docker ps \
   --filter "status=running" \
-  --filter "label=custom.project=mates-rates" \
+  --filter "label=custom.project=mates-rates-store" \
   --filter "label=custom.service=postgres" \
   --no-trunc \
   -q)

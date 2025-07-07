@@ -1,0 +1,14 @@
+FROM node:18
+
+# Enable pnpm via corepack
+RUN corepack enable
+
+# Optional: Ensure pnpm is up to date
+RUN corepack prepare pnpm@latest --activate
+
+# Then continue as normal
+WORKDIR /app
+COPY ./apps/mates-rates-get-places-cron .
+RUN pnpm install
+
+CMD ["node", "dist/main.js"]

@@ -1,0 +1,5 @@
+node_modules
+*.log
+*.spec.ts
+*.test.ts
+coverage

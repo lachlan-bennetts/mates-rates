@@ -8,7 +8,7 @@ import { ScraperService } from './scraper.service';
 import { DbModule } from '@mates-rates/database';
 
 @Module({
-  imports: [HttpModule, EnvConfigModule, LoggerModule, DbModule],
+  imports: [HttpModule, EnvConfigModule, LoggerModule, DbModule.forRoot()],
   controllers: [PlacesCronController],
   providers: [PlacesCronService, ScraperService],
 })
