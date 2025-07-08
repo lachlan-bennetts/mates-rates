@@ -6,9 +6,16 @@ import { EnvConfigModule } from '@mates-rates/env-config';
 import { LoggerModule } from '@mates-rates/logger';
 import { ScraperService } from './scraper.service';
 import { DbModule } from '@mates-rates/database';
+import { RedisModule } from '@mates-rates/redis';
 
 @Module({
-  imports: [HttpModule, EnvConfigModule, LoggerModule, DbModule.forRoot()],
+  imports: [
+    HttpModule,
+    EnvConfigModule,
+    LoggerModule,
+    DbModule.forRoot(),
+    RedisModule,
+  ],
   controllers: [PlacesCronController],
   providers: [PlacesCronService, ScraperService],
 })

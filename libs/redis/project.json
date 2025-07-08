@@ -1,0 +1,12 @@
+{
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "outputPath": "dist/libs/redis",
+        "main": "libs/redis/src/index.ts",
+        "tsConfig": "libs/redis/tsconfig.lib.json"
+      }
+    }
+  }
+}
