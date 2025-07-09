@@ -44,7 +44,7 @@ export class Logger implements LoggerService {
     this.logger.warn(this.format(message), { furtherContext });
   }
 
-  debug?(message: string, furtherContext?: string) {
+  debug(message: string, furtherContext?: string) {
     this.logger.debug(this.format(message), { furtherContext });
   }
 }
