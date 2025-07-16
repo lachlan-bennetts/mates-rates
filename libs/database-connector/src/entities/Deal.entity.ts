@@ -4,7 +4,12 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Bar } from './Bar.entity';
+import { ScrapeDatum } from './ScrapeInfo';
 
 export enum dealCategory {
   happyHour = 'HAPPY_HOUR',
@@ -41,6 +46,16 @@ export class Deal {
 
   @Column('text', { array: true })
   daysActive!: number[];
+
+  @OneToOne(() => ScrapeDatum, (scrapeDatum) => scrapeDatum.deal, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn() // This sets the owning side and creates the foreign key
+  scrapeDatum!: ScrapeDatum;
+
+  @ManyToOne(() => Bar, (bar) => bar.deals)
+  Bar!: Bar;
 
   @CreateDateColumn({
     type: 'timestamp',

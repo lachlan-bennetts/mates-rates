@@ -2,9 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Deal } from './Deal.entity';
 
 @Entity('Bar')
 export class Bar {
@@ -19,6 +22,9 @@ export class Bar {
 
   @Column()
   location!: string;
+
+  @OneToMany(() => Deal, (deal) => deal.Bar)
+  deals!: Deal[];
 
   @CreateDateColumn({
     type: 'timestamp',
