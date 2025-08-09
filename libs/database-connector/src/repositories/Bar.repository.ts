@@ -14,8 +14,16 @@ export class BarRepository {
     return this.repository.find();
   }
 
-  async findById(id: number): Promise<Bar | null> {
+  async findById(id: string): Promise<Bar | null> {
     return this.repository.findOneBy({ id } as any);
+  }
+
+  async findByMapId(mapId: string): Promise<boolean | null> {
+    return this.repository.exists({
+      where: {
+        mapId: mapId,
+      },
+    });
   }
 
   async create(data: DeepPartial<Bar>): Promise<Bar> {
@@ -23,12 +31,12 @@ export class BarRepository {
     return this.repository.save(entity);
   }
 
-  async update(id: number, data: DeepPartial<Bar>): Promise<Bar | null> {
+  async update(id: string, data: DeepPartial<Bar>): Promise<Bar | null> {
     await this.repository.update(id, data as any);
     return this.findById(id);
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     await this.repository.delete(id);
   }
 }

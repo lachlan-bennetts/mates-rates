@@ -15,6 +15,9 @@ export class ScrapeDatum {
   @Column('text', { array: true })
   selector!: string;
 
+  @Column('text')
+  mapId!: string;
+
   @Column({ type: 'jsonb' })
   selectorMetadata!: {
     tagName: string;

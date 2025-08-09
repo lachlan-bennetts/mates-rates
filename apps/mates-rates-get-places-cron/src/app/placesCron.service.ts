@@ -2,10 +2,15 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { EnvConfigService } from '@mates-rates/env-config';
 import { Logger } from '@mates-rates/logger';
+import { BarRepository } from '@mates-rates/database';
 
 @Injectable()
 export class PlacesCronService {
-  constructor(private env: EnvConfigService, private logger: Logger) {}
+  constructor(
+    private env: EnvConfigService,
+    private logger: Logger,
+    private barRepository: BarRepository
+  ) {}
 
   async fetchAndMapPlaces(): Promise<any> {
     try {
@@ -30,9 +35,7 @@ export class PlacesCronService {
         }
       );
 
-      const elements = res.data.elements;
-
-      const cleaned = elements.map((el: any) => ({
+      const allBars = res.data.elements.map((el: any) => ({
         id: el.id,
         name: el.tags?.name,
         website: el.tags?.website || el.tags?.['contact:website'],
@@ -42,10 +45,10 @@ export class PlacesCronService {
       }));
 
       this.logger.log(
-        `Fetched ${cleaned.length} bars/pubs with websites in Sydney:`
+        `Fetched ${allBars.length} bars/pubs with websites in Sydney:`
       );
 
-      return cleaned;
+      return allBars;
     } catch (err) {
       console.error('Error has occured', err);
       throw err;

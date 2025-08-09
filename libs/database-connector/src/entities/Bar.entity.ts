@@ -15,6 +15,9 @@ export class Bar {
   id!: string;
 
   @Column()
+  mapId!: string;
+
+  @Column()
   name!: string;
 
   @Column()
