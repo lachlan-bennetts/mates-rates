@@ -8,7 +8,7 @@ import {
 import { Deal } from './Deal.entity';
 
 @Entity()
-export class ScrapeDatum {
+export class ScrapeInfo {
   @PrimaryGeneratedColumn()
   id!: number;
 

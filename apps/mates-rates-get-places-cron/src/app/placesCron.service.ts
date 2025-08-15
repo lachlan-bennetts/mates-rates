@@ -48,6 +48,8 @@ export class PlacesCronService {
         `Fetched ${allBars.length} bars/pubs with websites in Sydney:`
       );
 
+      // allBars.forEach(async (bar) => {})
+
       return allBars;
     } catch (err) {
       console.error('Error has occured', err);
@@ -55,5 +57,7 @@ export class PlacesCronService {
     }
   }
 
-  // Need method to
+  async scrape(barMapObj: any) {
+    return;
+  }
 }
