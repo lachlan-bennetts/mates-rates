@@ -27,13 +27,20 @@ export class Deal {
   title!: string;
 
   @Column({ type: 'text', nullable: true })
-  description?: string;
+  description!: string;
 
   @Column({ type: 'enum', enum: dealCategory })
   category!: dealCategory;
 
-  @Column({ type: 'decimal', nullable: true })
-  price!: number;
+  @Column({
+    type: 'decimal',
+    nullable: true,
+    transformer: {
+      to: (v?: number) => v,
+      from: (v?: string) => (v == null ? null : Number(v)),
+    },
+  })
+  price!: number | null;
 
   @Column({ type: 'date', nullable: true })
   validTo!: Date;
@@ -44,7 +51,7 @@ export class Deal {
   @Column({ type: 'varchar', length: 510 })
   imageUrl?: string;
 
-  @Column('text', { array: true })
+  @Column('int', { array: true })
   daysActive!: number[];
 
   @OneToOne(() => ScrapeInfo, (scrapeInfo) => scrapeInfo.deal, {

@@ -9,12 +9,12 @@ import {
 } from 'typeorm';
 import { Deal } from './Deal.entity';
 
-@Entity('Bar')
+@Entity('bars')
 export class Bar {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column()
+  @Column({ unique: true })
   mapId!: string;
 
   @Column()

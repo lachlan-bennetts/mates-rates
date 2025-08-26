@@ -7,16 +7,13 @@ import {
 } from 'typeorm';
 import { Deal } from './Deal.entity';
 
-@Entity()
+@Entity('scrape_infos')
 export class ScrapeInfo {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column('text', { array: true })
-  selector!: string;
-
-  @Column('text')
-  mapId!: string;
+  selector!: string[];
 
   @Column({ type: 'jsonb' })
   selectorMetadata!: {
@@ -26,19 +23,24 @@ export class ScrapeInfo {
     textContent?: string;
   };
 
-  @Column()
-  sourceUrl!: string;
-
-  @Column()
-  imageUrl?: string;
-
   @OneToOne(() => Deal, (deal) => deal.scrapeDatum)
   deal!: Deal;
+
+  @Column({ type: 'jsonb', nullable: true })
+  evidenceSnippet?: { text?: string; html?: string };
+
+  @Column({ type: 'varchar', length: 64, nullable: true })
+  pageChecksum?: string; // e.g., SHA256 of raw HTML
+
+  @Column({ type: 'varchar', length: 64, nullable: true })
+  extractionEngine?: string;
+
+  @Column({ type: 'float', nullable: true })
+  confidence?: number;
 
   @UpdateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
-    onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   public lastScraped!: Date;
 }
