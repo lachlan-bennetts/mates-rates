@@ -2,6 +2,7 @@ import { EnvConfigService } from '@mates-rates/env-config';
 import { DataSourceOptions } from 'typeorm';
 import { Bar } from '../entities/Bar.entity';
 import { Deal } from '../entities/Deal.entity';
+import { ScrapeInfo } from '../entities/ScrapeInfo.entity';
 
 const envConfig = new EnvConfigService();
 
@@ -12,7 +13,7 @@ export const ormConfig: DataSourceOptions = {
   username: String(envConfig.get('DB_USER')),
   password: String(envConfig.get('DB_PASS')),
   database: String(envConfig.get('DB_NAME')),
-  entities: [Bar, Deal],
+  entities: [Bar, Deal, ScrapeInfo],
   synchronize: false,
   logging: false,
 };

@@ -13,9 +13,9 @@ import { ScrapeInfo } from './ScrapeInfo.entity';
 
 export enum dealCategory {
   happyHour = 'HAPPY_HOUR',
-  twoForOne = '2FOR1',
+  twoForOne = '2_FOR_1',
   event = 'EVENT',
-  foodSpecial = 'FOODSPECIAL',
+  foodSpecial = 'FOOD_SPECIAL',
 }
 
 @Entity('deals')
@@ -58,8 +58,8 @@ export class Deal {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  @JoinColumn() // This sets the owning side and creates the foreign key
-  scrapeDatum!: ScrapeInfo;
+  @JoinColumn()
+  scrapeInfo!: ScrapeInfo;
 
   @ManyToOne(() => Bar, (bar) => bar.deals)
   Bar!: Bar;

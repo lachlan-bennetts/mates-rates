@@ -23,7 +23,7 @@ export class ScrapeInfo {
     textContent?: string;
   };
 
-  @OneToOne(() => Deal, (deal) => deal.scrapeDatum)
+  @OneToOne(() => Deal, (deal) => deal.scrapeInfo)
   deal!: Deal;
 
   @Column({ type: 'jsonb', nullable: true })

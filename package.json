@@ -51,6 +51,7 @@
     "jsonc-eslint-parser": "^2.1.0",
     "nx": "21.0.3",
     "prettier": "^2.6.2",
+    "source-map-loader": "^5",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
